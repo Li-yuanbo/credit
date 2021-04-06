@@ -10,6 +10,7 @@ import (
 func handler(r *gin.Engine){
 	//user_info
 	r.POST("/user", RegisterUser)  //注册用户
+	r.DELETE("/user", DeleteUser)  //注销用户
 	r.GET("/user/login", LoginUser) //用户登录
 	r.GET("/user", GetUserInfo)    //根据id查询用户的信息
 	r.PUT("/user/detail", UpdateUserDetail) //修改用户个人信息

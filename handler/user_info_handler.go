@@ -48,6 +48,12 @@ func RegisterUser(c *gin.Context) {
 	SucResponse(c, req)
 }
 
+//注销用户
+//用户id： id
+func DeleteUser(c *gin.Context) {
+	
+}
+
 //登录
 //用户名: user_name 	密码: password
 func LoginUser(c *gin.Context) {
