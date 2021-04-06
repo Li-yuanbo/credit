@@ -16,6 +16,7 @@ type UserInfoReq struct{
 	UserName 	string	`json:"user_name"`
 	Password 	string	`json:"password"`
 	Phone 		string	`json:"phone"`
+	IdCard		string	`json:"id_card"`
 }
 
 type UserDetailReq struct {

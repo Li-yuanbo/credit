@@ -94,7 +94,31 @@ func DeleteBank(c *gin.Context) {
 	SucResponse(c, nil)
 }
 
-
+//银行发布文章
+//bank_id	news_title	news_content
+func PublishNews(c *gin.Context) {
+	//获取request body
+	body, err := c.GetRawData()
+	if err != nil {
+		log.Println("get request body err: ", err)
+		ErrResponse(c, http.StatusInternalServerError, 10001, ERR_CODE[10001])
+		return
+	}
+	//通过json将request body转换为struct
+	var req model.PublishNewsReq
+	err = json.Unmarshal(body, &req)
+	if err != nil {
+		log.Println("request body unmarshal err: ", err)
+		ErrResponse(c, http.StatusInternalServerError, 10002, ERR_CODE[10002])
+		return
+	}
+	news, err := mysql.InsertBankNews(req, mysql.WriteDB())
+	if err != nil {
+		ErrResponse(c, http.StatusInternalServerError, 10003, ERR_CODE[10003])
+		return
+	}
+	SucResponse(c, news)
+}
 
 
 

@@ -14,8 +14,13 @@ var(
 		20002: "USER_SESSION_ERROR",		//获取用户session错误
 		20003: "USER_ALREADY_LOGIN",		//用户已经登录
 		20004: "USER_NOT_LOGIN",			//用户未登录
+		20005: "OTHER_USER_NOT_FOUND",		//收款人信息错误
+		20006: "OPERATE_USER_NOT_FOUND",	//打款人信息错误
 
 		//信用卡错误
 		30001: "USER_ALREADY_HAS_CARD",		//用户已经拥有该银行信用卡
+		30002: "OTHER_USER_NOT_HAVE_CARD",	//收款人信用卡号错误
+		30003: "OPERATE_USER_NOT_HAVE_CARD",//打款人信用卡号错误
+		30004: "CARD_BALANCE_TOO_LESS",		//余额不足
 	}
 )

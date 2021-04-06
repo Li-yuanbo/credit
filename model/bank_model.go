@@ -26,3 +26,9 @@ type BankReq struct {
 	Town		string	`json:"town"`			//市
 	Country		string	`json:"country"`		//县
 }
+
+type PublishNewsReq struct {
+	BankId		int64	`json:"bank_id"`
+	NewsTitle	string	`json:"news_title"`
+	NewsContent	string	`json:"news_content"`
+}

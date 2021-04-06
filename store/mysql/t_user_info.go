@@ -8,10 +8,11 @@ import (
 )
 
 type UserInfo struct {
-	Id			int64				`gorm:"column:id"`
+	Id			int64			`gorm:"column:id"`
 	Name		string			`gorm:"column:name"`
 	Password	string			`gorm:"column:password"`
 	Phone		string			`gorm:"column:phone"`
+	IdCard		string			`gorm:"column:id_card"`
 	CreateTime	int64			`gorm:"column:create_time"`
 	UpdateTime	int64			`gorm:"column:update_time"`
 }

@@ -44,7 +44,7 @@ func UpdateCreditCard(req model.CreditCardReq, db *gorm.DB) error {
 		Balance:       req.Balance,
 		UpdateTime:    time.Now().Unix(),
 	}
-	if err := db.Model(&CreditCard{}).Where("id = ?", req.Id).Update(creditCardModel).Error; err != nil {
+	if err := db.Model(&CreditCard{}).Where("credit_card_num = ?", req.CreditCardNum).Update(creditCardModel).Error; err != nil {
 		log.Println("update credit card err: ", err)
 		return err
 	}
@@ -53,12 +53,20 @@ func UpdateCreditCard(req model.CreditCardReq, db *gorm.DB) error {
 }
 
 //DeleteCreditCard：删除信用卡信息
-func DeleteCreditCard(cardId int64, db *gorm.DB) error {
+func DeleteCreditCard(card model.CreditCardReq, db *gorm.DB) error {
 	creditCardModel := CreditCard{
-		Id:            cardId,
+		Id:            card.Id,
+		UserId:		   card.UserId,
+	}
+	var c CreditCard
+	if err := db.Where(&creditCardModel).First(&c).Error; err != nil{
+		if gorm.IsRecordNotFoundError(err) {
+			log.Println("not have card err: ", err, ". card id is ", card.Id, ". user id is ", card.UserId)
+			return err
+		}
 	}
 	if err := db.Delete(creditCardModel).Error; err != nil {
-		log.Println("delete credit card err: ", err, ". card id is ", cardId)
+		log.Println("delete credit card err: ", err, ". card id is ", card.Id, ". user id is ", card.UserId)
 		return err
 	}
 	log.Println("delete credit card success")
@@ -74,6 +82,17 @@ func SelectCardById(cardId int, db *gorm.DB) (*CreditCard, error) {
 	}
 	log.Println("select credit card success")
 	return creditCard, nil
+}
+
+//通过银行id和卡号查询信用卡
+func SelectCardByBankAndCardId(bankId int64, userId int64, db *gorm.DB) (*CreditCard, error) {
+	var card CreditCard
+	if err := db.Model(&CreditCard{}).Where("bank_id = ? and user_id = ?", bankId, userId).First(&card).Error; err != nil {
+		log.Println("[db] find card by bank and card id err: ", err)
+		return nil, err
+	}
+	log.Println("[db] find card by bank and card id success")
+	return &card, nil
 }
 
 //SelectCardByPage：分页查询信用卡信息    limit=-1 && offset=0查询所有

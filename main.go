@@ -18,10 +18,11 @@ func handler(r *gin.Engine){
 	//bank
 	r.POST("/bank", UpdateBank) //新增/修改银行
 	r.DELETE("/bank", DeleteBank) //删除银行
+	r.POST("/news", PublishNews)  //发布文章
 
 	//credit_card
 	r.POST("/card", BindCard) //用户绑定信用卡
-	r.PUT("/card", OperateCard) //存取款， 转账
+	r.DELETE("/card", UnBindCard) //用户解绑信用卡
 }
 
 func main(){

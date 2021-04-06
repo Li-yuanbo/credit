@@ -38,6 +38,7 @@ func RegisterUser(c *gin.Context) {
 	req.Id = userId
 	if err != nil {
 		ErrResponse(c, http.StatusInternalServerError, 10003, ERR_CODE[10003])
+		return
 	}
 	//写session
 	session := sessions.Default(c)
@@ -51,7 +52,7 @@ func RegisterUser(c *gin.Context) {
 //注销用户
 //用户id： id
 func DeleteUser(c *gin.Context) {
-	
+
 }
 
 //登录
