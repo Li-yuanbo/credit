@@ -123,7 +123,7 @@ func GetUserInfo(c *gin.Context) {
 		ErrResponse(c, http.StatusInternalServerError, 10003, ERR_CODE[10003])
 		return
 	}
-	res := model.UserInfoModel{
+	userInfo := model.UserInfoModel{
 		Id:         user.Id,
 		UserName:   user.Name,
 		Password:   user.Password,
@@ -136,6 +136,17 @@ func GetUserInfo(c *gin.Context) {
 		CreateTime: user.CreateTime,
 		UpdateTime: user.UpdateTime,
 	}
+	res := model.GetUserInfoResp{
+		User: userInfo,
+	}
+
+	//获取用户的信用卡信息
+	cards, err := mysql.SelectUserCardInfo(req.Id, mysql.WriteDB())
+	if err != nil {
+		ErrResponse(c, http.StatusInternalServerError, 10003, ERR_CODE[10003])
+		return
+	}
+	res.Card = cards
 	SucResponse(c, res)
 }
 

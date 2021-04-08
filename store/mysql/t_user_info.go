@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"credit_gin/model"
+	"fmt"
 	"github.com/jinzhu/gorm"
 	"log"
 	"time"
@@ -123,4 +124,35 @@ func GetUserTotalCount(db *gorm.DB) (int64, error) {
 	}
 	log.Println("[db]: get user total count success, count: ", total)
 	return total, nil
+}
+
+//根据用户id查询用户信用卡信息
+func SelectUserCardInfo(userid int64, db *gorm.DB) ([]*model.UserCard, error) {
+	cards := make([]*model.UserCard, 0, 0)
+	if err := db.Table("user_card").Select("bank.bank_name, user_card.bank_id,user_card.credit_card_num, user_card.balance").
+		Joins("left join bank on user_card.bank_id = bank.id").Where("user_id = ?", userid).Scan(&cards).
+		Error; err != nil {
+			log.Println("[db]: select user card err: ", err)
+			return nil, err
+	}
+	res := make([]*model.UserCard, 0, 0)
+	for _, card := range cards {
+		c := &model.UserCard{
+			BankId:        card.BankId,
+			BankName:      Uint8ToStr(card.BankName.([]uint8)),
+			CreditCardNum: Uint8ToStr(card.CreditCardNum.([]uint8)),
+			Balance:       card.Balance,
+		}
+		res = append(res, c)
+		fmt.Println(c)
+	}
+	return res, nil
+}
+
+func Uint8ToStr(data []uint8) string {
+	ba := []byte{}
+	for _, b := range data {
+		ba = append(ba, b)
+	}
+	return string(ba)
 }

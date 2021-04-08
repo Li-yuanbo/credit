@@ -32,6 +32,18 @@ type GetUserInfoReq struct {
 	Id	int64	`json:"id"`
 }
 
+type UserCard struct {
+	BankId			interface{}	`json:"bank_id"`
+	BankName		interface{}	`json:"bank_name"`
+	CreditCardNum	interface{}	`json:"credit_card_num"`
+	Balance			interface{}	`json:"balance"`
+}
+
+type GetUserInfoResp struct {
+	User	UserInfoModel `json:"user"`
+	Card	[]*UserCard	  `json:"card"`
+}
+
 type GetUserInfosReq struct {
 	Limit	int64	`json:"limit"`
 	Offset	int64	`json:"offset"`

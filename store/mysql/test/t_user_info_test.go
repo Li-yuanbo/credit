@@ -40,3 +40,7 @@ func TestSelectUsers(t *testing.T){
 		fmt.Println(user.Name)
 	}
 }
+
+func TestSelectUserCardInfo(t *testing.T) {
+	mysql.SelectUserCardInfo(13, mysql.WriteDB())
+}

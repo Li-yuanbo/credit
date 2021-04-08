@@ -25,7 +25,11 @@ func TestUpdateCreditCard(t *testing.T) {
 }
 
 func TestDeleteCreditCard(t *testing.T) {
-	_ = mysql.DeleteCreditCard(3, mysql.WriteDB())
+	req := model.CreditCardReq{
+		Id:            1,
+		UserId:        1,
+	}
+	_ = mysql.DeleteCreditCard(req, mysql.WriteDB())
 }
 
 func TestSelectCardById(t *testing.T) {
