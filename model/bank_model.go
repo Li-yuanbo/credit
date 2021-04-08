@@ -32,3 +32,19 @@ type PublishNewsReq struct {
 	NewsTitle	string	`json:"news_title"`
 	NewsContent	string	`json:"news_content"`
 }
+
+type GetBankInfoReq struct {
+	BankName	string	`json:"bank_name"`
+}
+
+type GetBankInfosReq struct {
+	Limit 	int64	`json:"limit"`
+	Offset	int64	`json:"offset"`
+	CurPage int64	`json:"page_num"`
+}
+
+type GetBankInfosResp struct {
+	TotalPage	int64			`json:"total_page"`
+	CurPage		int64			`json:"cur_page"`
+	Banks		[]*BankModel	`json:"banks"`
+}

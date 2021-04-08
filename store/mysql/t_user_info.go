@@ -13,6 +13,9 @@ type UserInfo struct {
 	Password	string			`gorm:"column:password"`
 	Phone		string			`gorm:"column:phone"`
 	IdCard		string			`gorm:"column:id_card"`
+	Gender		int64			`gorm:"column：gender"`
+	Birthday	string			`gorm:"column:birthday"`
+	Desc		string			`gorm:"column:desc"`
 	CreateTime	int64			`gorm:"column:create_time"`
 	UpdateTime	int64			`gorm:"column:update_time"`
 }
@@ -22,11 +25,15 @@ func (*UserInfo) TableName() string {
 }
 
 //InsertUserInfo: 新增用户
-func InsertUserInfo(userReq model.UserInfoReq, db *gorm.DB) (int64, error){
+func InsertUserInfo(req model.RegisterUserReq, db *gorm.DB) (int64, error){
 	UserInfoModel := &UserInfo{
-		Name:       userReq.UserName,
-		Password:   userReq.Password,
-		Phone:      userReq.Phone,
+		Name:       req.UserName,
+		Password:   req.Password,
+		Phone:      req.Phone,
+		IdCard:		req.IdCard,
+		Gender:		req.Gender,
+		Birthday:	req.Birthday,
+		Desc:		req.Desc,
 		CreateTime: time.Now().Unix(),
 		UpdateTime: time.Now().Unix(),
 	}
@@ -40,7 +47,7 @@ func InsertUserInfo(userReq model.UserInfoReq, db *gorm.DB) (int64, error){
 }
 
 //UpdateUserInfo: 更新用户信息
-func UpdateUserInfo(userReq model.UserInfoReq, db *gorm.DB) error {
+func UpdateUserInfo(userReq model.UserInfoModel, db *gorm.DB) error {
 	UpdateUserModel := map[string]interface{}{
 		"name":        userReq.UserName,
 		"password":    userReq.Password,
@@ -57,7 +64,7 @@ func UpdateUserInfo(userReq model.UserInfoReq, db *gorm.DB) error {
 }
 
 //DeleteUserInfoById: 根据User Id删除用户
-func DeleteUserInfoById(userReq model.UserInfoReq, db *gorm.DB) error {
+func DeleteUserInfoById(userReq model.UserInfoModel, db *gorm.DB) error {
 	user := UserInfo{
 		Id: userReq.Id,
 	}

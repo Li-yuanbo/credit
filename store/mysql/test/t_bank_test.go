@@ -47,7 +47,11 @@ func TestSelectBankInfoById(t *testing.T) {
 }
 
 func TestSelectBankInfoByPage(t *testing.T) {
-	banks, _ := mysql.SelectBankInfoByPage(-1, 0)
+	req := model.GetBankInfosReq{
+		Limit:  -1,
+		Offset: 0,
+	}
+	banks, _ := mysql.SelectBankInfoByPage(req, mysql.WriteDB())
 	for _, bank := range banks {
 		fmt.Println(bank)
 	}

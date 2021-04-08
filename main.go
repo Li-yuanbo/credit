@@ -12,17 +12,17 @@ func handler(r *gin.Engine){
 	r.POST("/user", RegisterUser)  //注册用户
 	r.DELETE("/user", DeleteUser)  //注销用户
 	r.GET("/user/login", LoginUser) //用户登录
-	r.GET("/user", GetUserInfo)    //根据id查询用户的信息
-	r.PUT("/user/detail", UpdateUserDetail) //修改用户个人信息
 
 	//bank
 	r.POST("/bank", UpdateBank) //新增/修改银行
 	r.DELETE("/bank", DeleteBank) //删除银行
+	r.GET("/bank", GetBankInfo)  //获取银行信息
+	r.GET("/banks", GetBankInfos)  //获取全部银行信息
 	r.POST("/news", PublishNews)  //发布文章
 
 	//credit_card
-	r.POST("/card", BindCard) //用户绑定信用卡
-	r.DELETE("/card", UnBindCard) //用户解绑信用卡
+	r.POST("/user_card", BindCard) //用户绑定信用卡
+	r.DELETE("/user_card", UnBindCard) //用户解绑信用卡
 }
 
 func main(){

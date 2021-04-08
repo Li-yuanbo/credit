@@ -23,7 +23,7 @@ func TestInsertUserInfo(t *testing.T) {
 }
 
 func TestUserInfo(t *testing.T) {
-	userInfoReq := model.UserInfoReq{
+	userInfoReq := model.UserInfoModel{
 		Id: 5,
 	}
 	mysql.DeleteUserInfoById(userInfoReq, mysql.WriteDB())

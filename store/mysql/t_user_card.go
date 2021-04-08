@@ -9,8 +9,8 @@ import (
 
 type CreditCard struct {
 	Id				int64 		`gorm:"column:id"`
-	BankId			int64			`gorm:"column:bank_id"`
-	UserId			int64			`gorm:"column:user_id"`
+	BankId			int64		`gorm:"column:bank_id"`
+	UserId			int64		`gorm:"column:user_id"`
 	CreditCardNum	string		`gorm:"column:credit_card_num"`
 	Balance			float64		`gorm:"column:balance"`
 	CreateTime		int64		`gorm:"column:create_time"`
@@ -18,7 +18,7 @@ type CreditCard struct {
 }
 
 func (*CreditCard)	TableName() string {
-	return "credit_card"
+	return "user_card"
 }
 
 //AddCreditCard

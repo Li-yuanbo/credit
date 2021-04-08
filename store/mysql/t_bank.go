@@ -99,9 +99,9 @@ func SelectBankInfoById(bankId int64, db *gorm.DB) (*Bank, error) {
 }
 
 //SelectBankByPage: 分页查询所以银行信息 limit=-1 && offset = 0查询全部
-func SelectBankInfoByPage(limit int, offset int) ([]*Bank, error) {
+func SelectBankInfoByPage(req model.GetBankInfosReq, db *gorm.DB) ([]*Bank, error) {
 	banks := make([]*Bank, 0, 0)
-	if err := db.Limit(limit).Offset(offset).Find(&banks).Error; err != nil {
+	if err := db.Limit(req.Limit).Offset(req.Offset).Find(&banks).Error; err != nil {
 		log.Println("select bank by page err: ", err)
 		return banks, err
 	}
@@ -109,8 +109,26 @@ func SelectBankInfoByPage(limit int, offset int) ([]*Bank, error) {
 	return banks, nil
 }
 
+//根据银行名字获取银行信息
+func SelectBankInfoByName(req model.GetBankInfoReq, db *gorm.DB) (*Bank, error) {
+	bank := &Bank{}
+	if err := db.Where("bank_name = ?", req.BankName).Find(&bank).Error; err != nil {
+		log.Println("[db] select bank by id err: ", err)
+		return nil, err
+	}
+	log.Println("[db] select bank by id success")
+	return bank, nil
+}
 
-
+func SelectBankTotalCount(db *gorm.DB) (int64, error) {
+	var count int64
+	if err := db.Model(&Bank{}).Count(&count).Error; err != nil {
+		log.Println("[db] get bank num err: ", err)
+		return -1, err
+	}
+	log.Println("[db] get bank num success")
+	return count, nil
+}
 
 
 

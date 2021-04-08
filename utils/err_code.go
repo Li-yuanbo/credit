@@ -16,6 +16,7 @@ var(
 		20004: "USER_NOT_LOGIN",			//用户未登录
 		20005: "OTHER_USER_NOT_FOUND",		//收款人信息错误
 		20006: "OPERATE_USER_NOT_FOUND",	//打款人信息错误
+		20007: "USER_NAME_ERROR",			//用户名错误
 
 		//信用卡错误
 		30001: "USER_ALREADY_HAS_CARD",		//用户已经拥有该银行信用卡
