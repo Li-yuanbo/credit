@@ -33,3 +33,16 @@ type OperateBalanceReq struct {
 	OperateType		int64	`json:"operate_type"` //0-存款 1-取款 2-转账 3-被转账
 	Money			float64	`json:"money"`
 }
+
+type GetUserOperateReq struct {
+	UserId			int64	`json:"user_id"`
+	OperateType		int64	`json:"operate_type"`
+}
+
+type GetUserOperateResp struct {
+	UserId			int64	`json:"user_id"`
+	OperateType		int64	`json:"operate_type"`
+	CreditCardNum	string	`json:"credit_card_num"`
+	OperateDesc		string	`json:"operate_desc"`
+	OperateFlow		string	`json:"operate_flow"`
+}

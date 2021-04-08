@@ -27,6 +27,7 @@ func handler(r *gin.Engine){
 	r.POST("/user_card", BindCard) //用户绑定信用卡
 	r.DELETE("/user_card", UnBindCard) //用户解绑信用卡
 	r.POST("/money", OperateBalance) //存取款
+	r.GET("/operate", GetUserOperate) //获取用户全部信用卡操作流水
 }
 
 func main(){

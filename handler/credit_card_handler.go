@@ -212,3 +212,46 @@ func OperateBalance(c *gin.Context) {
 	}
 	SucResponse(c, res)
 }
+
+//获取用户操作流水
+//操作类型：operate_type  0-存款 1-取款
+func GetUserOperate(c *gin.Context) {
+	body, err := c.GetRawData()
+	if err != nil {
+		log.Println("get request body err: ", err)
+		ErrResponse(c, http.StatusInternalServerError, 10001, ERR_CODE[10001])
+		return
+	}
+	var req model.GetUserOperateReq
+	err = json.Unmarshal(body, &req)
+	if err != nil {
+		log.Println("request body unmarshal err: ", err)
+		ErrResponse(c, http.StatusInternalServerError, 10002, ERR_CODE[10002])
+		return
+	}
+	//判断用户登录
+	session := sessions.Default(c)
+	if session.Get("user") == nil{
+		log.Println("get user session err: ", err)
+		ErrResponse(c, http.StatusInternalServerError, 20004, ERR_CODE[20004])
+		return
+	}
+	req.UserId = session.Get("user").(int64)
+	ops, err := mysql.GetUserOperate(req, mysql.WriteDB())
+	if err != nil {
+		ErrResponse(c, http.StatusInternalServerError, 10003, ERR_CODE[10003])
+		return
+	}
+	res := make([]*model.GetUserOperateResp, 0, 0)
+	for _, op := range ops {
+		o := &model.GetUserOperateResp{
+			UserId:        op.UserId,
+			OperateType:   op.OperateType,
+			CreditCardNum: op.CreditCardNum,
+			OperateDesc:   op.OperateDesc,
+			OperateFlow:   op.OperateFlow,
+		}
+		res = append(res, o)
+	}
+	SucResponse(c, res)
+}

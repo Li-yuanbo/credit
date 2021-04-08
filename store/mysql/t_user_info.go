@@ -156,3 +156,14 @@ func Uint8ToStr(data []uint8) string {
 	}
 	return string(ba)
 }
+
+//获取用户收入/支出详情
+func GetUserOperate(req model.GetUserOperateReq, db *gorm.DB) ([]*CreditCardFlow, error){
+	ops := make([]*CreditCardFlow, 0, 0)
+	if err := db.Where("user_id = ? and operate_type = ?", req.UserId, req.OperateType).Find(&ops).Error; err != nil {
+		log.Println("[db]: select user ops err: ", err)
+		return nil, err
+	}
+	log.Println("[db]: select user ops success")
+	return ops, nil
+}
