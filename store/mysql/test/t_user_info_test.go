@@ -9,12 +9,12 @@ import (
 )
 
 func TestInsertUserInfo(t *testing.T) {
-	userInfoReq := model.UserInfoReq{
+	req := model.RegisterUserReq{
 		UserName: "李四",
 		Password: "lisi",
 		Phone:    "13299162870",
 	}
-	_, err := mysql.InsertUserInfo(userInfoReq, mysql.WriteDB())
+	_, err := mysql.InsertUserInfo(req, mysql.WriteDB())
 	if err != nil {
 		log.Println("insert user err: ", err)
 		return
@@ -23,10 +23,10 @@ func TestInsertUserInfo(t *testing.T) {
 }
 
 func TestUserInfo(t *testing.T) {
-	userInfoReq := model.UserInfoModel{
+	req := model.DeleteUserReq{
 		Id: 5,
 	}
-	mysql.DeleteUserInfoById(userInfoReq, mysql.WriteDB())
+	mysql.DeleteUserInfoById(req, mysql.WriteDB())
 }
 
 func TestSelectUsers(t *testing.T){

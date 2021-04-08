@@ -1,5 +1,12 @@
 package mysql
 
+import (
+	"credit_gin/model"
+	"github.com/jinzhu/gorm"
+	"log"
+	"time"
+)
+
 type CreditCardFlow struct {
 	Id 					int64 	`gorm:"column:id"`
 	UserId				int64	`gorm:"column:user_id"`
@@ -17,4 +24,26 @@ type CreditCardFlow struct {
 
 func (*CreditCardFlow) TableName() string {
 	return "credit_card_flow"
+}
+
+func InsertOperateFlow(req model.CreditCardFlowModel, db *gorm.DB) (*CreditCardFlow, error) {
+	model := CreditCardFlow{
+		UserId:        req.UserId,
+		BankId:        req.BankId,
+		CreditCardNum: req.CreditCardNum,
+		OperateDesc:   req.OperateDesc,
+		OperateFlow:   req.OperateFlow,
+		OperateType:   req.OperateType,
+		Money:         req.Money,
+		MoneyType:     req.MoneyType,
+		AfterBalance:  req.AfterBalance,
+		CreateTime:    time.Now().Unix(),
+		UpdateTime:    time.Now().Unix(),
+	}
+	if err := db.Create(&model).Error; err != nil {
+		log.Println("[db] insert card operate flow err: ", err)
+		return nil, err
+	}
+	log.Println("[db] insert card operate flow success")
+	return &model, nil
 }

@@ -13,6 +13,7 @@ type UserInfo struct {
 	Password	string			`gorm:"column:password"`
 	Phone		string			`gorm:"column:phone"`
 	IdCard		string			`gorm:"column:id_card"`
+	Level		int64			`gorm:"column:level"`
 	Gender		int64			`gorm:"column：gender"`
 	Birthday	string			`gorm:"column:birthday"`
 	Desc		string			`gorm:"column:desc"`
@@ -64,16 +65,16 @@ func UpdateUserInfo(userReq model.UserInfoModel, db *gorm.DB) error {
 }
 
 //DeleteUserInfoById: 根据User Id删除用户
-func DeleteUserInfoById(userReq model.UserInfoModel, db *gorm.DB) error {
+func DeleteUserInfoById(req model.DeleteUserReq, db *gorm.DB) error {
 	user := UserInfo{
-		Id: userReq.Id,
+		Id: req.Id,
 	}
 	err := db.Delete(&user).Error
 	if err != nil {
 		log.Println("DeleteUserInfoById: delete user info err: ", err)
 		return err
 	}
-	log.Println("Delete User Info Success, user id: ", userReq.Id)
+	log.Println("Delete User Info Success, user id: ", req.Id)
 	return nil
 }
 
@@ -90,14 +91,14 @@ func SelectUserInfoById(userId int64, db *gorm.DB) (UserInfo, error) {
 }
 
 //SelectUsers: 分页查询用户. offset=0 && limit=-1查询全部
-func SelectUserInfos(limit int, offset int, db *gorm.DB)([]*UserInfo, error) {
+func SelectUserInfos(limit int64, offset int64, db *gorm.DB)([]*UserInfo, error) {
 	users := make([]*UserInfo, 0, 0)
 	err := db.Limit(limit).Offset(offset).Find(&users).Error
 	if err != nil {
-		log.Println("Select Users: select users err: ", err)
+		log.Println("[db] Select Users: select users err: ", err)
 		return users, err
 	}
-	log.Println("Select Users Success, user num : ", len(users))
+	log.Println("[db] Select Users Success, user num : ", len(users))
 	return users, nil
 }
 
@@ -111,4 +112,15 @@ func SelectUserByUserName(username string, db *gorm.DB) (*UserInfo, error) {
 	}
 	log.Println("[db]: Select User By Id Success, user: ", user)
 	return user, nil
+}
+
+//获取用户总数
+func GetUserTotalCount(db *gorm.DB) (int64, error) {
+	var total int64
+	if err := db.Model(&UserInfo{}).Count(&total).Error; err != nil {
+		log.Println("[db]: get user total count err: ", err)
+		return -1, err
+	}
+	log.Println("[db]: get user total count success, count: ", total)
+	return total, nil
 }

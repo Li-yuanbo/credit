@@ -85,9 +85,9 @@ func SelectCardById(cardId int, db *gorm.DB) (*CreditCard, error) {
 }
 
 //通过银行id和卡号查询信用卡
-func SelectCardByBankAndCardId(bankId int64, userId int64, db *gorm.DB) (*CreditCard, error) {
+func SelectCardByBankAndCardId(bankId int64, cardNum string, db *gorm.DB) (*CreditCard, error) {
 	var card CreditCard
-	if err := db.Model(&CreditCard{}).Where("bank_id = ? and user_id = ?", bankId, userId).First(&card).Error; err != nil {
+	if err := db.Model(&CreditCard{}).Where("bank_id = ? and credit_card_num = ?", bankId, cardNum).First(&card).Error; err != nil {
 		log.Println("[db] find card by bank and card id err: ", err)
 		return nil, err
 	}
